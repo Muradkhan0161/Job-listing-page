@@ -29,7 +29,7 @@ function App() {
         tags.push(...languages)
     }
     
-    return tags.some(tag => filters.includes(tag));
+    return filters.every(filter => tags.includes(filter));
   }
 
   const handleTagClick = (tag) => {
@@ -44,24 +44,31 @@ function App() {
     setFilters(filters.filter((f) => f !== passedFilter));
   }
 
+  const clearFilters = () => {
+    setFilters([]);
+  }
+
 
   console.log(jobs);
 
   return (
     <div className="App">
       <header className='bg-teal-500 mb-12'>
-        <img src="/images/bg-header-desktop.svg" alt="bg-image" />
+        <img className='w-full' src="/images/bg-header-desktop.svg" alt="bg-image" />
       </header>
+      <div className="container m-auto relative z-10">
         {
           filters.length > 0 && (
-          <div className={`flex bg-white shadow-md my-16 mx-6 p-6 rounded-md`}>
+          <div className={`flex flex-wrap bg-white shadow-md mb-16 -my-20 mx-6 p-6 rounded-md justify-items-center`}>
           {filters.map(
           (filter) => (
           <span onClick= {() => handleFilterClick(filter)}
-          className='cursor-pointer text-teal-500 bg-teal-100 font-bold mr-4 mb-4 p-2 rounded sm:mb-0'>
+          className='cursor-pointer text-teal-500 bg-teal-100 font-bold mr-4 pl-4 pt-2 rounded lg:mb-0'>
           {filter}
+          <span className=' bg-teal-500 text-white ml-4 p-2'>&#10005;</span>
           </span>
           ))}
+          <button onClick={clearFilters} className='bg-teal-500 p-2 text-white ml-auto rounded'>Clear</button>
           </div>
         )}
       
@@ -74,6 +81,7 @@ function App() {
         handleTagClick={handleTagClick}
         /> )
       )}
+      </div>
     </div>
   );
 }
